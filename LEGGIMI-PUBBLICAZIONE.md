@@ -16,6 +16,9 @@ Ogni file va copiato nello stesso percorso del repository, sostituendo quello es
 - Nuovi file: `src/lib/fx.ts`, `src/components/PorticoIntro.tsx`, `src/components/ScrollFx.tsx`. Aggiornati: `Energy.tsx`, `App.tsx`, `Hero.tsx`, `Process.tsx`, `Contact.tsx`, `Quota.tsx`, `Pricing.tsx`, `Testimonials.tsx`, `package.json` (aggiunto three.js).
 - three.js viene incluso nel sito, non caricato da servizi esterni: nessun impatto su privacy e cookie.
 
+## 1c. Portale 3D (v4)
+- Nuovo file: `src/lib/portal3d.ts`. Aggiornato: `src/components/Showcase.tsx` (dashboard 3D interattiva con dati di esempio).
+
 ## 2. File da ELIMINARE dal repository
 - `package-lock.json`: viene rigenerato automaticamente con le nuove dipendenze
 - `src/assets/*.jpg`: sostituite dalle .webp

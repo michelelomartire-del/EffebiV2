@@ -1,82 +1,117 @@
-import { useState } from "react";
-import { CONTAINER } from "@/lib/constants";
-import { cn } from "@/utils/cn";
-import { SectionHeading } from "./ui/SectionHeading";
+// @ts-nocheck
+import { Fragment, useEffect, useRef, useState } from "react";
+import { initPortal, portalVals } from "@/lib/portal3d";
 
-type Row = { a: string; b: string; tone?: "ok" | "warn" };
-const TABS: { id: string; title: string; desc: string; kpis: [string, string][]; rows: Row[] }[] = [
-  {
-    id: "rendiconti", title: "Rendiconti", desc: "Spese divise per voce e millesimi, fatture scaricabili, estratto conto personale.",
-    kpis: [["Saldo cassa", "€ 18.420"], ["Rate incassate", "94%"], ["Spese anno", "€ 41.300"]],
-    rows: [{ a: "Pulizie scale · ottobre", b: "€ 380" }, { a: "Energia parti comuni", b: "€ 612" }, { a: "Manutenzione ascensore", b: "€ 245" }, { a: "Rata 4/6 · interno 3", b: "Pagata", tone: "ok" }],
-  },
-  {
-    id: "segnalazioni", title: "Segnalazioni", desc: "Un guasto si segnala in 30 secondi, con foto, e si segue fino alla chiusura.",
-    kpis: [["Aperte", "2"], ["Chiuse nel mese", "7"], ["Tempo medio", "36 h"]],
-    rows: [{ a: "Luce cortile spenta", b: "In corso", tone: "warn" }, { a: "Perdita garage box 4", b: "Tecnico fissato", tone: "warn" }, { a: "Citofono interno 8", b: "Risolta", tone: "ok" }, { a: "Cancello automatico", b: "Risolta", tone: "ok" }],
-  },
-  {
-    id: "assemblee", title: "Assemblee", desc: "Convocazione, deleghe e voto da remoto. Il verbale arriva in giornata.",
-    kpis: [["Prossima", "14 nov"], ["Deleghe", "5"], ["Quorum", "612‰"]],
-    rows: [{ a: "Approvazione rendiconto 2025", b: "OdG 1" }, { a: "Preventivo facciata", b: "OdG 2" }, { a: "Studio fotovoltaico", b: "OdG 3" }, { a: "Varie ed eventuali", b: "OdG 4" }],
-  },
-  {
-    id: "consumi", title: "Consumi", desc: "Consumi comuni confrontati con l'anno precedente, con i consigli degli energy manager.",
-    kpis: [["kWh mese", "1.840"], ["vs 2025", "−12%"], ["Costo medio", "0,24 €"]],
-    rows: [{ a: "Illuminazione scale", b: "−18%", tone: "ok" }, { a: "Ascensore", b: "−4%", tone: "ok" }, { a: "Autoclave", b: "+2%", tone: "warn" }, { a: "Cancelli e citofoni", b: "−9%", tone: "ok" }],
-  },
-];
-
+/** Portale: edificio 3D interattivo con quattro viste (rendiconti, segnalazioni, consumi, assemblee). Dati di esempio. */
 export function Showcase() {
-  const [active, setActive] = useState(0);
-  const tab = TABS[active];
+  const [state, setRaw] = useState({ pLayer: 0, pSel: null, pExplode: false, pVote: "idle", pVoted: 0 });
+  const ref = useRef(state);
+  ref.current = state;
+  const setState = (u) => setRaw((s) => ({ ...s, ...u }));
+  const ctx = useRef({}).current;
+  const hostRef = useRef(null), tipRef = useRef(null);
+  useEffect(() => {
+    ctx.dead = false;
+    initPortal(hostRef.current, tipRef.current, () => ref.current, setState, ctx).catch((e) => console.warn("Portale 3D non disponibile", e));
+    return () => { ctx.dead = true; clearInterval(ctx.vi); if (ctx.wait) ctx.wait.disconnect(); if (ctx.off) ctx.off(); };
+  }, []);
+  const { pLayers, pKpis, pLegend, pExplode, pExplodeBg, pToggleExplode, pReset, pEyebrow, pTitle, pSub, pRows, pHasBars, pBars, pHasSteps, pSteps, pIsVote, pYesW, pStartVote, pVoteLabel, pHasList, pList } = portalVals(state, setState, ctx);
   return (
-    <section id="portale" aria-labelledby="showcase-title" className="bg-surface2 py-24">
-      <div className={`${CONTAINER} grid items-start gap-12 lg:grid-cols-2`}>
-        <div className="flex flex-col gap-6">
-          <SectionHeading id="showcase-title" eyebrow="Il portale dei condòmini" title="Ogni documento, a portata di telefono." />
-          <div role="tablist" aria-label="Funzioni del portale" className="flex flex-col gap-1.5">
-            {TABS.map((t, i) => (
-              <button
-                key={t.id}
-                type="button"
-                role="tab"
-                id={`tab-${t.id}`}
-                aria-selected={i === active}
-                aria-controls="portale-demo"
-                onClick={() => setActive(i)}
-                className={cn("flex flex-col gap-1 rounded-lg border-0 px-[18px] py-4 text-left text-ink", i === active ? "bg-surface" : "bg-transparent hover:bg-surface/60")}
-              >
-                <span className="text-[16px] font-bold">{t.title}</span>
-                <span className="text-[14.5px] leading-[1.5] text-body">{t.desc}</span>
-              </button>
-            ))}
+    <section id="portale" style={{ background: "#e9dfd0", padding: "96px 24px" }}>
+      <div style={{ maxWidth: "1320px", margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr)", gap: "40px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))", gap: "32px", alignItems: "end" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+            <div style={{ fontSize: "13px", fontWeight: "700", letterSpacing: ".14em", textTransform: "uppercase", color: "#b4532f" }}>Il portale dei condòmini</div>
+            <h2 style={{ font: "600 clamp(34px,4vw,52px)/1.08 Newsreader,serif", margin: "0" }}>Il vostro condominio, come una casa di vetro.</h2>
           </div>
+          <p style={{ fontSize: "18px", lineHeight: "1.6", color: "#5a4d44", margin: "0", maxWidth: "56ch" }}>Ogni appartamento, ogni euro, ogni guasto e ogni voto, sull'edificio vero. Ruotatelo, toccate un interno, cambiate vista.</p>
         </div>
-        <div id="portale-demo" role="tabpanel" aria-labelledby={`tab-${tab.id}`} className="overflow-hidden rounded-xl border border-[#d9ccb8] bg-surface">
-          <div className="flex items-center gap-2.5 border-b border-line px-4 py-3 text-[13px] text-body">
-            <span className="rounded bg-accent px-2 py-1 text-[11px] font-bold tracking-[0.12em] text-white">DEMO</span>
-            <span>Dati di esempio · condominio fittizio</span>
-          </div>
-          <div className="flex flex-col gap-5 p-7">
-            <h3 className="m-0 text-[26px] leading-[1.2]">{tab.title}</h3>
-            <dl className="m-0 grid grid-cols-3 gap-3">
-              {tab.kpis.map(([l, v]) => (
-                <div key={l} className="flex flex-col gap-1.5 rounded-lg bg-bg p-4">
-                  <dt className="text-[12.5px] text-body">{l}</dt>
-                  <dd className="m-0 font-display text-[24px] font-semibold leading-none">{v}</dd>
+        <div role="tablist" aria-label="Viste del portale" style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+          {pLayers.map((l, li) => (<Fragment key={li}>
+            <button type="button" role="tab" aria-selected={l.sel} onClick={l.pick} style={{ border: `1px solid ${l.bd}`, background: l.bg, color: l.fg, padding: "12px 18px", borderRadius: "999px", fontSize: "15px", fontWeight: "700", cursor: "pointer", display: "flex", gap: "10px", alignItems: "center" }}><span style={{ font: "500 13px Newsreader,serif", opacity: ".7" }}>{l.n}</span>{l.t}</button>
+          </Fragment>))}
+        </div>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "20px", alignItems: "stretch" }}>
+          <div style={{ flex: "2 1 560px", minWidth: "0", background: "#2a211c", borderRadius: "14px", overflow: "hidden", display: "flex", flexDirection: "column", minHeight: "600px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "12px 16px", borderBottom: "1px solid #3d322b", fontSize: "13px", color: "#c9b8a6" }}>
+              <span style={{ background: "#b4532f", color: "#fff", fontWeight: "700", letterSpacing: ".12em", fontSize: "11px", padding: "4px 8px", borderRadius: "4px" }}>DEMO</span>
+              <span>portale.effebiamministrazioni.it · Condominio Via dei Tigli 12 · dati di esempio</span>
+            </div>
+            <div data-fx="portal3d" ref={hostRef} style={{ position: "relative", flex: "1", minHeight: "520px", cursor: "grab", touchAction: "pan-y" }}>
+              <div style={{ position: "absolute", left: "16px", top: "16px", right: "16px", display: "flex", gap: "10px", flexWrap: "wrap", pointerEvents: "none", zIndex: "2" }}>
+                {pKpis.map((k, ki) => (<Fragment key={ki}>
+                  <div style={{ background: "rgba(246,241,233,.96)", color: "#2a211c", borderRadius: "10px", padding: "10px 14px", display: "flex", flexDirection: "column", gap: "4px", minWidth: "120px" }}>
+                    <span style={{ fontSize: "11.5px", color: "#5a4d44", fontWeight: "500" }}>{k.l}</span>
+                    <span style={{ font: "600 24px/1 Newsreader,serif", color: k.c }}>{k.v}</span>
+                  </div>
+                </Fragment>))}
+              </div>
+              <div data-fx="ptip" ref={tipRef} style={{ position: "absolute", left: "0", top: "0", opacity: "0", pointerEvents: "none", zIndex: "3", background: "#f6f1e9", color: "#2a211c", borderRadius: "8px", padding: "8px 12px", fontSize: "13px", whiteSpace: "nowrap", boxShadow: "0 6px 20px rgba(0,0,0,.25)", transition: "opacity .15s" }}></div>
+              <div style={{ position: "absolute", left: "16px", right: "16px", bottom: "16px", display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: "12px", flexWrap: "wrap", zIndex: "2" }}>
+                <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", background: "rgba(42,33,28,.85)", borderRadius: "8px", padding: "8px 12px", fontSize: "12.5px", color: "#e4d9ca" }}>
+                  {pLegend.map((g, gi) => (<Fragment key={gi}>
+                    <span style={{ display: "flex", alignItems: "center", gap: "6px" }}><span style={{ width: "10px", height: "10px", borderRadius: "3px", background: g.c }}></span>{g.l}</span>
+                  </Fragment>))}
                 </div>
-              ))}
-            </dl>
-            <ul className="m-0 list-none p-0">
-              {tab.rows.map((r) => (
-                <li key={r.a} className="flex justify-between gap-4 border-b border-[#eee5d8] py-3 text-[14.5px] last:border-b-0">
-                  <span>{r.a}</span>
-                  <span className={cn("font-bold", r.tone === "ok" && "text-salvia", r.tone === "warn" && "text-accent")}>{r.b}</span>
-                </li>
-              ))}
-            </ul>
+                <div style={{ display: "flex", gap: "8px" }}>
+                  <button type="button" onClick={pToggleExplode} aria-pressed={pExplode} style={{ border: "1px solid #5a4d44", background: pExplodeBg, color: "#f6f1e9", borderRadius: "999px", padding: "9px 14px", fontSize: "13px", fontWeight: "700", cursor: "pointer", whiteSpace: "nowrap" }}>Apri i piani</button>
+                  <button type="button" onClick={pReset} style={{ border: "1px solid #5a4d44", background: "transparent", color: "#f6f1e9", borderRadius: "999px", padding: "9px 14px", fontSize: "13px", fontWeight: "700", cursor: "pointer" }}>Centra</button>
+                </div>
+              </div>
+            </div>
           </div>
+          <aside aria-live="polite" style={{ flex: "1 1 320px", background: "#fff", borderRadius: "14px", padding: "28px", display: "flex", flexDirection: "column", gap: "18px", minWidth: "0" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+              <span style={{ fontSize: "12px", fontWeight: "700", letterSpacing: ".12em", textTransform: "uppercase", color: "#6f7d5c" }}>{pEyebrow}</span>
+              <h3 style={{ font: "600 28px/1.15 Newsreader,serif", margin: "0" }}>{pTitle}</h3>
+              <p style={{ fontSize: "14.5px", lineHeight: "1.55", color: "#5a4d44", margin: "0" }}>{pSub}</p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              {pRows.map((r, ri) => (<Fragment key={ri}>
+                <div style={{ display: "flex", justifyContent: "space-between", gap: "16px", padding: "11px 0", borderBottom: "1px solid #eee5d8", fontSize: "14.5px" }}>
+                  <span style={{ color: "#5a4d44" }}>{r.a}</span><span style={{ fontWeight: "700", color: r.c, textAlign: "right" }}>{r.b}</span>
+                </div>
+              </Fragment>))}
+            </div>
+            {pHasBars ? (<>
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <span style={{ fontSize: "12.5px", color: "#5a4d44" }}>Ultimi 6 mesi · kWh</span>
+                <div style={{ display: "flex", alignItems: "flex-end", gap: "8px", height: "90px" }}>
+                  {pBars.map((x, xi) => (<Fragment key={xi}>
+                    <div style={{ flex: "1", display: "flex", flexDirection: "column", alignItems: "center", gap: "4px", height: "100%", justifyContent: "flex-end" }}>
+                      <div style={{ width: "100%", height: x.h, background: x.c, borderRadius: "4px 4px 0 0", transition: "height .5s" }}></div>
+                      <span style={{ fontSize: "11px", color: "#5a4d44" }}>{x.m}</span>
+                    </div>
+                  </Fragment>))}
+                </div>
+              </div>
+            </>) : null}
+            {pHasSteps ? (<>
+              <ol style={{ margin: "0", padding: "0", listStyle: "none", display: "flex", flexDirection: "column", gap: "10px" }}>
+                {pSteps.map((t, ti) => (<Fragment key={ti}>
+                  <li style={{ display: "flex", gap: "12px", alignItems: "center", fontSize: "14.5px", color: t.fg }}><span style={{ width: "22px", height: "22px", borderRadius: "50%", background: t.dot, color: "#fff", fontSize: "12px", fontWeight: "700", display: "flex", alignItems: "center", justifyContent: "center" }}>{t.i}</span>{t.l}</li>
+                </Fragment>))}
+              </ol>
+            </>) : null}
+            {pIsVote ? (<>
+              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: "13px", color: "#5a4d44" }}><span>Favorevoli</span><span>maggioranza: 500‰</span></div>
+                <div style={{ position: "relative", height: "14px", background: "#f1e8db", borderRadius: "7px", overflow: "hidden" }}>
+                  <div style={{ position: "absolute", left: "0", top: "0", bottom: "0", width: pYesW, background: "#6f7d5c", transition: "width .3s" }}></div>
+                  <div style={{ position: "absolute", left: "50%", top: "-2px", bottom: "-2px", width: "2px", background: "#2a211c" }}></div>
+                </div>
+                <button type="button" onClick={pStartVote} style={{ alignSelf: "flex-start", background: "#b4532f", color: "#fff", border: "0", borderRadius: "6px", padding: "12px 18px", fontSize: "14.5px", fontWeight: "700", cursor: "pointer" }}>{pVoteLabel}</button>
+              </div>
+            </>) : null}
+            {pHasList ? (<>
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                {pList.map((t, ti) => (<Fragment key={ti}>
+                  <button type="button" onClick={t.pick} style={{ textAlign: "left", border: "1px solid #eee5d8", background: "#fbf8f3", borderRadius: "8px", padding: "12px 14px", cursor: "pointer", display: "flex", justifyContent: "space-between", gap: "12px", fontSize: "14px", color: "#2a211c" }}><span>{t.t}</span><span style={{ fontWeight: "700", color: t.c }}>{t.s}</span></button>
+                </Fragment>))}
+              </div>
+            </>) : null}
+            <p style={{ fontSize: "12.5px", color: "#5a4d44", margin: "auto 0 0", lineHeight: "1.5" }}>Trascinate per ruotare. Ogni condòmino, nel portale vero, vede solo i propri dati e i totali del condominio.</p>
+          </aside>
         </div>
       </div>
     </section>
