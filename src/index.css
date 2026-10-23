@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+/* Brandbook EffeBi · avorio dominante, terracotta per le azioni, inchiostro per il testo */
+@theme {
+  --font-sans: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+
+  --color-bg: #f6f1e9;          /* avorio */
+  --color-surface: #ffffff;
+  --color-surface2: #e9dfd0;    /* sabbia */
+  --color-line: #e9dfd0;
+  --color-ink: #2a211c;         /* inchiostro */
+  --color-body: #5a4d44;
+  --color-muted: #6e6157;
+  --color-accent: #b4532f;      /* terracotta */
+  --color-accent-ink: #ffffff;
+  --color-accent-soft: #d98a6a; /* terracotta su fondo scuro */
+  --color-salvia: #6f7d5c;
+  --color-on-dark: #e4d9ca;
+  --color-on-dark-muted: #c9b8a6;
+
+  --text-display: clamp(2.75rem, 6vw, 5rem);
+  --text-display--line-height: 1.02;
+  --text-head: clamp(2.125rem, 4vw, 3.25rem);
+  --text-head--line-height: 1.08;
+  --text-lead: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);
+  --text-lead--line-height: 1.6;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.6;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.5;
+
+  --radius-brand: 6px;
+  --ease-brand: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-tap-highlight-color: transparent;
+    text-size-adjust: 100%;
+  }
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--color-ink);
+    text-wrap: balance;
+  }
+  p { text-wrap: pretty; }
+  a { color: var(--color-accent); }
+  a:hover { color: var(--color-ink); }
+  button:not(:disabled), summary, label[for] { cursor: pointer; }
+  ::selection { background-color: var(--color-accent); color: #fff; }
+  :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  }
+}
+
+/* Il portico: la forma ad arco dei ritagli fotografici */
+@utility arch { border-radius: 999px 999px var(--radius-brand) var(--radius-brand); }
+@utility eyebrow {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}

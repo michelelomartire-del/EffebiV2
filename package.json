@@ -1,0 +1,30 @@
+{
+  "name": "effebi-sito",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node prerender.mjs",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@fontsource/manrope": "^5.1.0",
+    "@fontsource/newsreader": "^5.1.0",
+    "clsx": "2.1.1",
+    "framer-motion": "^13.4.2",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "tailwind-merge": "3.4.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "4.1.17",
+    "@types/node": "22.19.17",
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "5.1.1",
+    "tailwindcss": "4.1.17",
+    "typescript": "5.9.3",
+    "vite": "7.3.2"
+  }
+}

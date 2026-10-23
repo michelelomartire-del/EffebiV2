@@ -1,0 +1,12 @@
+# Normalizza gli EOL a LF nel repository, qualunque sia il sistema
+# con cui si clona (Windows con autocrlf, macOS, Linux).
+* text=auto
+
+# Immagini e binari: git non deve mai toccarli
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary

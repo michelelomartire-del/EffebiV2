@@ -1,0 +1,14 @@
+# dipendenze
+node_modules/
+
+# build e cache
+# dist/ lo costruisce Vercel in deploy: non si versiona (evita diff da build
+# e il disallineamento fra dist commitato e sorgente reale)
+dist/
+dist-ssr/
+.vite/
+*.local
+
+# sistema
+.DS_Store
+Thumbs.db

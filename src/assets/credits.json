@@ -1,0 +1,122 @@
+[
+ {
+  "file": "src/assets/bologna-portici.jpg",
+  "media": "image",
+  "ref": "commons:45843623",
+  "title": "Bologna Portici 349",
+  "creator": "GFreihalter",
+  "creatorUrl": null,
+  "date": "2015-11-05",
+  "license": "CC BY-SA 3.0",
+  "licenseCode": "by-sa",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "creditRequired": true,
+  "page": "https://commons.wikimedia.org/wiki/File:Bologna_Portici_349.jpg",
+  "via": "Wikimedia Commons",
+  "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/21/Bologna_Portici_349.jpg/1920px-Bologna_Portici_349.jpg",
+  "width": 1920,
+  "height": 1280,
+  "bytes": 300722,
+  "credit": "\"Bologna Portici 349\" by GFreihalter, CC BY-SA 3.0, via Wikimedia Commons",
+  "notes": [
+   "Share-alike: an altered version (recoloured, combined with other pictures) must be shared under the same licence."
+  ],
+  "saved": "2026-10-21T10:22:03.394Z"
+ },
+ {
+  "file": "src/assets/portico-sanluca.jpg",
+  "media": "image",
+  "ref": "commons:18770155",
+  "title": "Portico san luca",
+  "creator": "Puscas Vadim (Nebbius)",
+  "creatorUrl": null,
+  "date": "2012-03-16",
+  "license": "CC BY-SA 4.0",
+  "licenseCode": "by-sa",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "creditRequired": true,
+  "page": "https://commons.wikimedia.org/wiki/File:Portico_san_luca.jpg",
+  "via": "Wikimedia Commons",
+  "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Portico_san_luca.jpg/1920px-Portico_san_luca.jpg",
+  "width": 1920,
+  "height": 2880,
+  "bytes": 1258174,
+  "credit": "\"Portico san luca\" by Puscas Vadim (Nebbius), CC BY-SA 4.0, via Wikimedia Commons",
+  "notes": [
+   "Share-alike: an altered version (recoloured, combined with other pictures) must be shared under the same licence."
+  ],
+  "saved": "2026-10-21T10:22:03.684Z"
+ },
+ {
+  "file": "src/assets/portico-santostefano.jpg",
+  "media": "image",
+  "ref": "commons:62804492",
+  "title": "Arcate del Portico di Santo Stefano",
+  "creator": "Agnese.pi",
+  "creatorUrl": null,
+  "date": "2017-09-26",
+  "license": "CC BY-SA 4.0",
+  "licenseCode": "by-sa",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "creditRequired": true,
+  "page": "https://commons.wikimedia.org/wiki/File:Arcate_del_Portico_di_Santo_Stefano.jpg",
+  "via": "Wikimedia Commons",
+  "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c2/Arcate_del_Portico_di_Santo_Stefano.jpg/1920px-Arcate_del_Portico_di_Santo_Stefano.jpg",
+  "width": 1920,
+  "height": 1282,
+  "bytes": 623512,
+  "credit": "\"Arcate del Portico di Santo Stefano\" by Agnese.pi, CC BY-SA 4.0, via Wikimedia Commons",
+  "notes": [
+   "Share-alike: an altered version (recoloured, combined with other pictures) must be shared under the same licence."
+  ],
+  "saved": "2026-10-21T10:22:03.932Z"
+ },
+ {
+  "file": "src/assets/strada-maggiore.jpg",
+  "media": "image",
+  "ref": "commons:62718908",
+  "title": "Strada Maggiore",
+  "creator": "MarkPagl",
+  "creatorUrl": null,
+  "date": "2017-09-24",
+  "license": "CC BY-SA 4.0",
+  "licenseCode": "by-sa",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "creditRequired": true,
+  "page": "https://commons.wikimedia.org/wiki/File:Strada_Maggiore.jpg",
+  "via": "Wikimedia Commons",
+  "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/be/Strada_Maggiore.jpg/1920px-Strada_Maggiore.jpg",
+  "width": 1920,
+  "height": 2560,
+  "bytes": 771436,
+  "credit": "\"Strada Maggiore\" by MarkPagl, CC BY-SA 4.0, via Wikimedia Commons",
+  "notes": [
+   "Share-alike: an altered version (recoloured, combined with other pictures) must be shared under the same licence."
+  ],
+  "saved": "2026-10-21T10:22:04.180Z"
+ },
+ {
+  "file": "src/assets/castel-britti.jpg",
+  "media": "image",
+  "ref": "commons:35456119",
+  "title": "Castel de' Britti",
+  "creator": "ALEXFUSEALBA",
+  "creatorUrl": null,
+  "date": "2014-09-17",
+  "license": "CC BY-SA 3.0",
+  "licenseCode": "by-sa",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "creditRequired": true,
+  "page": "https://commons.wikimedia.org/wiki/File:Castel_de%27_Britti.jpg",
+  "via": "Wikimedia Commons",
+  "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9f/Castel_de%27_Britti.jpg/1920px-Castel_de%27_Britti.jpg",
+  "width": 1920,
+  "height": 1260,
+  "bytes": 463621,
+  "credit": "\"Castel de' Britti\" by ALEXFUSEALBA, CC BY-SA 3.0, via Wikimedia Commons",
+  "notes": [
+   "Share-alike: an altered version (recoloured, combined with other pictures) must be shared under the same licence."
+  ],
+  "saved": "2026-10-21T10:22:04.417Z"
+ }
+]
