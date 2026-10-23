@@ -25,7 +25,7 @@ export function Process() {
         <ol className="m-0 grid list-none gap-7 p-0 sm:grid-cols-2 lg:grid-cols-4">
           {STEPS.map((s) => (
             <li key={s.t} className="flex flex-col gap-4">
-              <img src={s.img} alt={s.alt} loading="lazy" decoding="async" data-fx="tilt" className="will-change-transform block aspect-[4/3] w-full rounded-[120px_120px_6px_6px] object-cover" />
+              <img src={s.img} alt={s.alt} loading="lazy" decoding="async" data-fx="tilt" className="block aspect-[4/3] w-full rounded-[120px_120px_6px_6px] object-cover" />
               <p className="m-0 text-[13px] font-bold uppercase tracking-[0.1em] text-salvia">{s.when}</p>
               <h3 className="m-0 text-[26px] leading-[1.15]">{s.t}</h3>
               <p className="m-0 text-[15.5px] leading-[1.6] text-body">{s.d}</p>

@@ -62,7 +62,7 @@ export function Contact() {
             <a href={CONTACT.mapsHref} target="_blank" rel="noopener noreferrer" className="text-small">Apri in mappa</a>
             <span className="text-body">{CONTACT.hours}</span>
           </address>
-          <img src={stradaMaggiore} alt="Strada Maggiore a Bologna, sotto i portici" loading="lazy" decoding="async" data-fx="tilt" className="will-change-transform arch hidden aspect-[4/5] w-full max-w-[360px] object-cover lg:block" />
+          <img src={stradaMaggiore} alt="Strada Maggiore a Bologna, sotto i portici" loading="lazy" decoding="async" data-fx="tilt" className="arch hidden aspect-[4/5] w-full max-w-[360px] object-cover lg:block" />
         </div>
 
         <form id="form-contatto" onSubmit={onSubmit} className="flex scroll-mt-24 flex-col gap-[18px] self-start rounded-xl border border-line bg-surface p-7 sm:p-9">

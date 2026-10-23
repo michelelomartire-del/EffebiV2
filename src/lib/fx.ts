@@ -7,25 +7,50 @@ export function initFx(): () => void {
   const mobile = innerWidth < 768, k = mobile ? 0.5 : 1;
   const q = n => Array.from(document.querySelectorAll('[data-fx="' + n + '"]'));
   const cl = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
-  const intro = q('intro')[0], scene = q('scene')[0], wrap = q('scale')[0], frames = q('frame'), slogan = q('slogan')[0], hint = q('hint')[0];
+  const intro = q('intro')[0], slogan = q('slogan')[0], hint = q('hint')[0];
   const tilts = q('tilt'), energy = q('energy')[0], rises = q('rise');
   const off = [];
-  const D = 600, N = frames.length;
   if (intro) { if (reduce) intro.style.display = 'none'; else intro.style.height = mobile ? '220vh' : '300vh'; }
+  const pc = q('pcanvas')[0], pctx = pc ? pc.getContext('2d') : null;
+  const AV = [246, 241, 233], FR = [[180, 83, 47], [166, 74, 41]], FLOOR = [217, 204, 184], CEIL = [143, 74, 45], WL = [199, 154, 124], WR = [185, 138, 108], CAP = [241, 230, 214];
+  const mix = (c, t) => 'rgb(' + c.map((v, j) => Math.round(v + (AV[j] - v) * t)).join(',') + ')';
+  const NF = 8, D = 600, NEAR = 140;
+  const drawPortico = p => {
+    const dpr = Math.min(devicePixelRatio || 1, mobile ? 1.5 : 2), w = pc.clientWidth, h = pc.clientHeight;
+    if (pc.width !== Math.round(w * dpr) || pc.height !== Math.round(h * dpr)) { pc.width = Math.round(w * dpr); pc.height = Math.round(h * dpr); }
+    pctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const sc = Math.max(w / 1440, h / 900) * (mobile ? 1.25 : 1), cx = w / 2, cy = h / 2, cam = p * (NF * D + 900);
+    const S = d => 900 * sc / d, P = (X, Y, d) => [cx + X * S(d), cy + Y * S(d)];
+    const fog = d => cl((d - 900) / (NF * D)) * 0.8, dF = i => 1200 + i * D - cam;
+    const quad = (pts, col) => { pctx.fillStyle = col; pctx.beginPath(); pts.forEach((pt, j) => j ? pctx.lineTo(pt[0], pt[1]) : pctx.moveTo(pt[0], pt[1])); pctx.closePath(); pctx.fill(); };
+    const seg = (d1, d2) => {
+      if (d2 <= NEAR) return; d1 = Math.max(d1, NEAR); const t = fog((d1 + d2) / 2);
+      quad([P(-1200, 800, d1), P(1200, 800, d1), P(1200, 800, d2), P(-1200, 800, d2)], mix(FLOOR, t));
+      quad([P(-1200, -800, d1), P(1200, -800, d1), P(1200, -800, d2), P(-1200, -800, d2)], mix(CEIL, t));
+      quad([P(-1200, -800, d1), P(-1200, 800, d1), P(-1200, 800, d2), P(-1200, -800, d2)], mix(WL, t));
+      quad([P(1200, -800, d1), P(1200, 800, d1), P(1200, 800, d2), P(1200, -800, d2)], mix(WR, t));
+    };
+    pctx.fillStyle = '#f6f1e9'; pctx.fillRect(0, 0, w, h);
+    seg(dF(NF - 1), 7300 - cam);
+    for (let i = NF - 1; i >= 0; i--) {
+      const d = dF(i);
+      if (d > NEAR) {
+        const s = S(d), t = fog(d);
+        pctx.fillStyle = mix(FR[i % 2], t); pctx.beginPath();
+        pctx.rect(cx - 1200 * s, cy - 800 * s, 2400 * s, 1600 * s);
+        pctx.moveTo(cx - 450 * s, cy + 800 * s); pctx.lineTo(cx - 450 * s, cy - 150 * s); pctx.arc(cx, cy - 150 * s, 450 * s, Math.PI, 0, false); pctx.lineTo(cx + 450 * s, cy + 800 * s); pctx.closePath();
+        pctx.fill('evenodd');
+        pctx.fillStyle = mix(CAP, t); pctx.fillRect(cx - 480 * s, cy - 170 * s, 60 * s, 34 * s); pctx.fillRect(cx + 420 * s, cy - 170 * s, 60 * s, 34 * s);
+      }
+      seg(i > 0 ? dF(i - 1) : 0, d);
+    }
+  };
   let three = null;
   const onScroll = () => {
     const vh = innerHeight;
     if (intro && !reduce) {
       const r = intro.getBoundingClientRect(), p = cl(-r.top / (r.height - vh));
-      const sc = Math.max(innerWidth / 1440, vh / 900) * (mobile ? 1.25 : 1);
-      wrap.style.transform = 'scale3d(' + sc + ',' + sc + ',' + sc + ')';
-      const cam = p * (N * D + 900);
-      scene.style.transform = 'translateZ(' + cam.toFixed(1) + 'px)';
-      frames.forEach((f, i) => {
-        const z = -i * D - 300 + cam;
-        f.style.visibility = z > 760 ? 'hidden' : 'visible';
-        f.style.opacity = (1 - cl(-z / (N * D)) * 0.8).toFixed(3);
-      });
+      if (pc && r.bottom > 0 && r.top < vh) drawPortico(p);
       const sp = cl((p - 0.74) / 0.2);
       slogan.style.opacity = sp; slogan.style.transform = 'scale(' + (0.9 + 0.1 * sp) + ')';
       hint.style.opacity = 1 - cl(p * 6);
@@ -48,9 +73,11 @@ export function initFx(): () => void {
     rises.forEach(el => io.observe(el));
     off.push(() => io.disconnect());
   }
-  if (energy) initThree(q('stage3d')[0], q('label'), q('estep'), q('edesc'), { reduce, mobile })
-    .then(t => { if (dead) { t.dispose(); return; } three = t; off.push(() => t.dispose()); onScroll(); })
-    .catch(e => console.warn('3D non disponibile', e));
+  if (energy) {
+    const host3 = q('stage3d')[0];
+    const lio = new IntersectionObserver(([e]) => { if (!e.isIntersecting) return; lio.disconnect(); initThree(q('stage3d')[0], q('label'), q('estep'), q('edesc'), { reduce, mobile }) .then(t => { if (dead) { t.dispose(); return; } three = t; off.push(() => t.dispose()); onScroll(); }) .catch(e => console.warn('3D non disponibile', e)); }, { rootMargin: '400px' });
+    lio.observe(host3); off.push(() => lio.disconnect());
+  }
   let raf = 0;
   const tick = () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; onScroll(); }); };
   addEventListener('scroll', tick, { passive: true }); addEventListener('resize', tick);
@@ -64,8 +91,8 @@ export async function initThree(host, labels, steps, descs, { reduce, mobile }) 
   const cl = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
   const ease = t => 1 - Math.pow(1 - t, 3);
   const W = () => Math.max(1, host.clientWidth), H = () => Math.max(1, host.clientHeight);
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, mobile ? 1.25 : 2));
+  const renderer = new THREE.WebGLRenderer({ antialias: !mobile, alpha: true, powerPreference: mobile ? 'low-power' : 'default' });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, mobile ? 1 : 2));
   renderer.setSize(W(), H(), false);
   renderer.shadowMap.enabled = !mobile; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
