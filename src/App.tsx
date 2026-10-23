@@ -12,6 +12,8 @@ import { FAQ } from "./components/FAQ";
 import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
 import { MobileCTA } from "./components/MobileCTA";
+import { PorticoIntro } from "./components/PorticoIntro";
+import { ScrollFx } from "./components/ScrollFx";
 
 export default function App() {
   return (
@@ -21,6 +23,7 @@ export default function App() {
       </a>
       <Navbar />
       <main id="main">
+        <PorticoIntro />
         <Hero />
         <Features />
         <Process />
@@ -34,6 +37,7 @@ export default function App() {
       </main>
       <Footer />
       <MobileCTA />
+      <ScrollFx />
     </MotionConfig>
   );
 }

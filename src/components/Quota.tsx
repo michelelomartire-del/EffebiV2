@@ -56,7 +56,7 @@ export function Quota() {
         </div>
         <div className="flex flex-col gap-3 rounded-xl border border-line bg-surface p-10" aria-live="polite">
           <span className="text-small text-body">Totale annuale, piano {plan.name}</span>
-          <span className="font-display text-[clamp(52px,7vw,84px)] font-semibold leading-none text-accent tabular-nums">{eur(plan.price * units)}</span>
+          <span data-fx="rise" className="self-start font-display text-[clamp(52px,7vw,84px)] font-semibold leading-none text-accent tabular-nums">{eur(plan.price * units)}</span>
           <span className="text-small text-body">IVA esclusa · {units} unità × {plan.price} €</span>
           <ButtonLink href="#form-contatto" className="mt-4 self-start">Richiedi il preventivo</ButtonLink>
           <p className="m-0 mt-2 text-[13px] leading-[1.5] text-body">

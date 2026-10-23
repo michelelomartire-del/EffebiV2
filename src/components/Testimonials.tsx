@@ -9,7 +9,7 @@ export function Testimonials() {
         <div className="flex flex-col gap-5">
           <SectionHeading id="testimonials-title" eyebrow="Recensioni" title="Cosa dicono i condòmini." />
           <p className="m-0 flex flex-wrap items-baseline gap-3">
-            <span className="font-display text-[64px] font-semibold leading-none text-accent">{RATING.display}</span>
+            <span data-fx="rise" className="font-display text-[64px] font-semibold leading-none text-accent">{RATING.display}</span>
             <span className="text-[15px] text-body">
               su 5 · {RATING.count} recensioni verificate su{" "}
               <a href={LISTINGS.paginegialleReviews} target="_blank" rel="noopener noreferrer">PagineGialle</a>

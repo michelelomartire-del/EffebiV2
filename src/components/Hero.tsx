@@ -34,7 +34,8 @@ export function Hero() {
           height={1376}
           fetchPriority="high"
           decoding="async"
-          className="arch block aspect-[4/5] w-full object-cover"
+          data-fx="tilt"
+          className="arch block aspect-[4/5] w-full object-cover will-change-transform"
         />
         <figure className="absolute -left-6 bottom-8 m-0 max-w-[240px] rounded-lg bg-ink p-5 text-small text-bg">
           <blockquote className="m-0">«Professionalità, presenza costante e trasparenza assoluta.»</blockquote>

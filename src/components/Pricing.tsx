@@ -20,7 +20,7 @@ export function Pricing() {
                 {p.popular ? <span className="rounded bg-accent px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.1em] text-white">Il più scelto</span> : null}
               </div>
               <p className="m-0">
-                <span className="font-display text-[52px] font-semibold leading-none text-accent">{p.price} €</span>
+                <span data-fx="rise" className="font-display text-[52px] font-semibold leading-none text-accent">{p.price} €</span>
                 <span className="text-small text-body"> / unità · anno, IVA esclusa</span>
               </p>
               <p className="m-0 text-[16px] text-body">{p.tagline}</p>

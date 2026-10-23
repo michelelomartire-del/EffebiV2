@@ -12,6 +12,10 @@ Ogni file va copiato nello stesso percorso del repository, sostituendo quello es
 - `src/assets/*.webp` (nuove foto ottimizzate: da 4,2 MB a 1,3 MB)
 - cartella `public/` (nuova): favicon, icone, immagine social, robots.txt, sitemap.xml, privacy.html
 
+## 1b. Animazioni 3D (v3)
+- Nuovi file: `src/lib/fx.ts`, `src/components/PorticoIntro.tsx`, `src/components/ScrollFx.tsx`. Aggiornati: `Energy.tsx`, `App.tsx`, `Hero.tsx`, `Process.tsx`, `Contact.tsx`, `Quota.tsx`, `Pricing.tsx`, `Testimonials.tsx`, `package.json` (aggiunto three.js).
+- three.js viene incluso nel sito, non caricato da servizi esterni: nessun impatto su privacy e cookie.
+
 ## 2. File da ELIMINARE dal repository
 - `package-lock.json`: viene rigenerato automaticamente con le nuove dipendenze
 - `src/assets/*.jpg`: sostituite dalle .webp
