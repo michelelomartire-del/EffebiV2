@@ -56,17 +56,17 @@ export const NAV_LINKS = [
 /** Listino reale, IVA esclusa, per unità immobiliare e anno. */
 export const PLANS = [
   {
-    id: "essenziale", name: "Essenziale", price: 84, popular: false,
+    id: "essenziale", name: "Essenziale", price: 100, popular: false,
     tagline: "Ordine e conti sempre in regola.",
     features: ["Contabilità, preventivo e rendiconto annuale", "Assemblea ordinaria, in presenza o online", "Portale e app condòmini 24/7", "Pagamento digitale delle rate", "Registri obbligatori digitali", "Assistenza in orario d'ufficio"],
   },
   {
-    id: "completo", name: "Completo", price: 108, popular: true,
+    id: "completo", name: "Completo", price: 130, popular: true,
     tagline: "Manutenzioni ed emergenze sotto controllo.",
     features: ["Tutto il piano Essenziale", "Fino a 2 assemblee straordinarie", "Manutenzioni con ticket e foto", "Reperibilità h24 per le emergenze", "Controllo bollette e contratti fornitori", "Recupero crediti stragiudiziale", "Report trimestrale per il consiglio"],
   },
   {
-    id: "energia-plus", name: "Energia+", price: 132, popular: false,
+    id: "energia-plus", name: "Energia+", price: 170, popular: false,
     tagline: "Risparmio energetico e valore per l'edificio.",
     features: ["Tutto il piano Completo", "Diagnosi energetica con Eniminds", "Rinegoziazione forniture luce e gas", "Monitoraggio dei consumi", "Studio fotovoltaico e Comunità Energetica", "Consulenza su bonus e pratiche edilizie", "Referente dedicato"],
   },
