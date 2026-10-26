@@ -4,7 +4,7 @@ import { SectionHeading } from "./ui/SectionHeading";
 const FAQS = [
   ["Come si cambia amministratore di condominio?", "Serve una delibera dell'assemblea approvata dalla maggioranza degli intervenuti che rappresenti almeno 500 millesimi (art. 1136 c.c.). Vi affianchiamo dalla richiesta di convocazione al passaggio di consegne con il precedente amministratore."],
   ["Il primo incontro è gratuito?", "Sì. Analizziamo la situazione del condominio anche se oggi è gestito da un altro amministratore e, se lo desiderate, prepariamo un preventivo da presentare agli altri condòmini."],
-  ["Cosa è incluso nel compenso?", "Dipende dal piano: da 84 € per unità all'anno. Alla nomina ricevete l'elenco analitico di tutte le voci (art. 1129 c.c.): nessun costo non concordato."],
+  ["Cosa è incluso nel compenso?", "Dipende dal piano: da 100 € per unità all'anno. Alla nomina ricevete l'elenco analitico di tutte le voci (art. 1129 c.c.): nessun costo non concordato."],
   ["Dove consulto i documenti del condominio?", "Ogni condòmino ha un accesso personale a portale e app: rendiconti, verbali, fatture, regolamento ed estratto conto, 24 ore su 24."],
   ["Cosa succede in caso di guasto o emergenza?", "Aprite una segnalazione dall'app con foto e la seguite fino alla chiusura. Nei piani Completo ed Energia+ c'è la reperibilità h24 per le urgenze."],
   ["Come si riducono i costi energetici?", "Con Eniminds analizziamo le bollette delle parti comuni, rinegoziamo le forniture e valutiamo efficientamento, fotovoltaico e Comunità Energetiche, con costi e ritorno chiari in assemblea."],
